@@ -10,9 +10,9 @@ image:
 variables: &common_vars
   TF_ADDRESS: "https://gitlab.com/api/v4/projects/${PROJECT_ID}/terraform/state/teach-challenge-state"
   backend_config: |
-    -backend-config=address=${TF_ADDRESS} \
-    -backend-config=lock_address=${TF_ADDRESS}/lock \
-    -backend-config=unlock_address=${TF_ADDRESS}/lock \
+    -backend-config=address=$TF_ADDRESS \
+    -backend-config=lock_address=$TF_ADDRESS/lock \
+    -backend-config=unlock_address=$TF_ADDRESS/lock \
     -backend-config=username=${TF_USERNAME} \
     -backend-config=password=${TF_PASSWORD} \
     -backend-config=lock_method=POST \
@@ -26,8 +26,8 @@ validate:
   script:
     - terraform --version
     - cd ${CI_PROJECT_DIR}/tf_templates
-    - echo ${backend_config}
-    - terraform init ${backend_config}
+    - echo $backend_config
+    - terraform init $backend_config
     - terraform validate
 
 plan:
@@ -36,7 +36,7 @@ plan:
     <<: *common_vars
   script:
     - cd ${CI_PROJECT_DIR}/tf_templates
-    - terraform init ${backend_config}
+    - terraform init $backend_config
     - terraform plan
 
 apply:
@@ -46,5 +46,5 @@ apply:
     <<: *common_vars
   script:
     - cd ${CI_PROJECT_DIR}/tf_templates
-    - terraform init ${backend_config}
+    - terraform init $backend_config
     - terraform apply -auto-approve
