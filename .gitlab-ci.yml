@@ -3,8 +3,10 @@ stages:
   - plan
   - apply
 
-image: hashicorp/terraform
-
+image: 
+  name: hashicorp/terraform:latest
+  entrypoint: [""]
+  
 validate:
   stage: lint
   script:
