@@ -1,3 +1,14 @@
+resource "aws_security_group" "lb-sg" {
+  name        = "Load Balancer SG"
+  description = "Load Balancer SG"
+  vpc_id      = aws_vpc.tech-challenge.id
+
+  tags = {
+    Name = "Load Balancer SG"
+    Organization = "Servian"
+  }
+}
+
 resource "aws_security_group" "application-sg" {
   name        = "Application SG"
   description = "Application SG"
@@ -21,7 +32,6 @@ resource "aws_security_group" "db-sg" {
   }
 }
 
-
 resource "aws_security_group_rule" "https-rule" {
   type              = "ingress"
   from_port         = 0
@@ -29,7 +39,7 @@ resource "aws_security_group_rule" "https-rule" {
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   ipv6_cidr_blocks  = ["::/0"]
-  security_group_id = aws_security_group.application-sg.id
+  security_group_id = aws_security_group.lb-sg.id
 }
 
 resource "aws_security_group_rule" "http-rule" {
@@ -39,6 +49,24 @@ resource "aws_security_group_rule" "http-rule" {
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   ipv6_cidr_blocks  = ["::/0"]
+  security_group_id = aws_security_group.lb-sg.id
+}
+
+resource "aws_security_group_rule" "application-https-rule" {
+  type              = "ingress"
+  from_port         = 0
+  to_port           = 443
+  protocol          = "tcp"
+  source_security_group_id = aws_security_group.lb-sg.id
+  security_group_id = aws_security_group.application-sg.id
+}
+
+resource "aws_security_group_rule" "application-http-rule" {
+  type              = "ingress"
+  from_port         = 0
+  to_port           = 80
+  protocol          = "tcp"
+  source_security_group_id = aws_security_group.lb-sg.id
   security_group_id = aws_security_group.application-sg.id
 }
 

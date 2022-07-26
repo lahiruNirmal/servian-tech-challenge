@@ -1,4 +1,5 @@
 stages:
+  - download-app
   - lint
   - plan
   - apply
@@ -20,10 +21,30 @@ variables: &common_vars
     -backend-config=unlock_method=DELETE 
     -backend-config=retry_wait_min=5
 
+# configure-application:
+#   image: 
+#     name: centos:latest
+#     entrypoint: [""]
+#   stage: download-app
+#   script:
+#     - mkdir app && cd app
+#     - wget https://github.com/servian/TechChallengeApp/releases/download/v.0.10.0/TechChallengeApp_v.0.10.0_linux64.zip
+#     - unzip TechChallengeApp_v.0.10.0_linux64.zip -d ./
+#     - sed -c -i "s/\(DbUser *= *\).*/\1${DB_USER}/" ${CI_PROJECT_DIR}/app/dist/conf.toml
+#     - sed -c -i "s/\(DbPassword *= *\).*/\1${DB_PASSWORD}/" ${CI_PROJECT_DIR}/app/dist/conf.toml
+#     - sed -c -i "s/\(DbName *= *\).*/\1${DB_PASSWORD}/" ${CI_PROJECT_DIR}/app/dist/conf.toml
+#   artifacts:
+#     paths:
+#       - ${CI_PROJECT_DIR}/tf_templates/compute/userdata/
+
 validate:
   stage: lint
   variables:
     <<: *common_vars
+  before_script:
+    - mkdir app && cd app
+    - wget https://github.com/servian/TechChallengeApp/releases/download/v.0.10.0/TechChallengeApp_v.0.10.0_linux64.zip
+    - unzip TechChallengeApp_v.0.10.0_linux64.zip -d ./
   script:
     - terraform --version
     - cd ${CI_PROJECT_DIR}/tf_templates
@@ -31,31 +52,31 @@ validate:
     - terraform init $backend_config
     - terraform validate
 
-plan:
-  stage: plan
-  variables:
-    <<: *common_vars
-  script:
-    - cd ${CI_PROJECT_DIR}/tf_templates
-    - terraform init $backend_config
-    - terraform plan
+# plan:
+#   stage: plan
+#   variables:
+#     <<: *common_vars
+#   script:
+#     - cd ${CI_PROJECT_DIR}/tf_templates
+#     - terraform init $backend_config
+#     - terraform plan
 
-apply:
-  stage: apply
-  when: manual
-  variables:
-    <<: *common_vars
-  script:
-    - cd ${CI_PROJECT_DIR}/tf_templates
-    - terraform init $backend_config
-    - terraform apply -auto-approve
+# apply:
+#   stage: apply
+#   when: manual
+#   variables:
+#     <<: *common_vars    
+#   script:
+#     - cd ${CI_PROJECT_DIR}/tf_templates
+#     - terraform init $backend_config
+#     - terraform apply -auto-approve
 
-destroy:
-  stage: destroy
-  when: manual
-  variables:
-    <<: *common_vars
-  script:
-    - cd ${CI_PROJECT_DIR}/tf_templates
-    - terraform init $backend_config
-    - terraform destroy -auto-approve
+# destroy:
+#   stage: destroy
+#   when: manual
+#   variables:
+#     <<: *common_vars
+#   script:
+#     - cd ${CI_PROJECT_DIR}/tf_templates
+#     - terraform init $backend_config
+#     - terraform destroy -auto-approve

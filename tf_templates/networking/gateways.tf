@@ -9,7 +9,7 @@ resource "aws_internet_gateway" "igw" {
 
 resource "aws_nat_gateway" "ngw" {
   allocation_id = aws_eip.natgw_eip.id
-  subnet_id     = aws_subnet.application-subnet.id
+  subnet_id     = aws_subnet.public-subnet.id
 
   tags = {
     Name = "tech-challenge-ngw"
