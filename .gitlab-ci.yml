@@ -8,6 +8,7 @@ image: hashicorp/terraform
 validate:
   stage: lint
   script:
+    - terraform --version
     - cd ${CI_COMMIT_DIR}/tf_templates
     - terraform init
     - terraform validate
