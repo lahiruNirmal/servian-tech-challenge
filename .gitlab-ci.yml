@@ -6,12 +6,12 @@ stages:
 image: 
   name: hashicorp/terraform:latest
   entrypoint: [""]
-  
+
 validate:
   stage: lint
   script:
     - terraform --version
-    - cd ${CI_COMMIT_DIR}/tf_templates
+    - cd ${CI_PROJECT_DIR}/tf_templates
     - terraform init
     - terraform validate
 
