@@ -1,0 +1,21 @@
+stages:
+  - lint
+  - plan
+  - apply
+
+image: hashicorp/terraform
+
+validate:
+  stage: lint
+  script:
+    - cd ${CI_COMMIT_DIR}/tf_templates
+    - terraform init
+    - terraform validate
+
+plan:
+  stage: plan
+  script:
+    - cd ${CI_COMMIT_DIR}/tf_templates
+    - terraform init
+    - terraform plan
+
