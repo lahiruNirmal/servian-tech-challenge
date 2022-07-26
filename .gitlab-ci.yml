@@ -29,7 +29,8 @@ configure-application:
     - unzip TechChallengeApp_v.0.10.0_linux64.zip -d ./
     - sed -i "s/\(DbUser *= *\).*/\1${DB_USER}/" ${CI_PROJECT_DIR}/app/dist/conf.toml
     - sed -i "s/\(DbPassword *= *\).*/\1${DB_PASSWORD}/" ${CI_PROJECT_DIR}/app/dist/conf.toml
-    - sed -i "s/\(DbName *= *\).*/\1${DB_PASSWORD}/" ${CI_PROJECT_DIR}/app/dist/conf.toml
+    - echo ${DB_USER}
+    - echo ${DB_PASSWORD}
     - cat ./dist/conf.toml
   artifacts:
     paths:
