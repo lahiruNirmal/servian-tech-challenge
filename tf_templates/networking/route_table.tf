@@ -25,11 +25,6 @@ resource "aws_route_table" "db-route-table" {
     gateway_id = aws_nat_gateway.ngw.id
   }
 
-  route {
-    ipv6_cidr_block = "::/0"
-    gateway_id = aws_nat_gateway.ngw.id
-  }
-
   tags = {
     Name = "db-route-table"
     Organization = "Servian"
