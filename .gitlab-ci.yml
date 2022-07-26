@@ -2,6 +2,7 @@ stages:
   - lint
   - plan
   - apply
+  - destroy
 
 image: 
   name: hashicorp/terraform:light
