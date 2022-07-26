@@ -24,7 +24,7 @@ validate:
   script:
     - terraform --version
     - cd ${CI_PROJECT_DIR}/tf_templates
-    - terraform init 
+    - terraform init ${backend_config}
     - terraform validate
 
 plan:
