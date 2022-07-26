@@ -22,7 +22,7 @@ variables: &common_vars
 validate:
   stage: lint
   variables:
-    <<: common_vars
+    <<: *common_vars
   script:
     - terraform --version
     - cd ${CI_PROJECT_DIR}/tf_templates
@@ -32,7 +32,7 @@ validate:
 plan:
   stage: plan
   variables:
-    <<: common_vars
+    <<: *common_vars
   script:
     - cd ${CI_PROJECT_DIR}/tf_templates
     - terraform init ${backend_config}
@@ -42,9 +42,8 @@ apply:
   stage: apply
   when: manual
   variables:
-    <<: common_vars
+    <<: *common_vars
   script:
     - cd ${CI_PROJECT_DIR}/tf_templates
     - terraform init ${backend_config}
     - terraform apply -auto-approve
-    
