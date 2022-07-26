@@ -48,3 +48,13 @@ apply:
     - cd ${CI_PROJECT_DIR}/tf_templates
     - terraform init $backend_config
     - terraform apply -auto-approve
+
+destroy:
+  stage: destroy
+  when: manual
+  variables:
+    <<: *common_vars
+  script:
+    - cd ${CI_PROJECT_DIR}/tf_templates
+    - terraform init $backend_config
+    - terraform destroy -auto-approve
