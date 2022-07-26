@@ -47,3 +47,4 @@ apply:
     - cd ${CI_PROJECT_DIR}/tf_templates
     - terraform init ${backend_config}
     - terraform apply -auto-approve
+    
