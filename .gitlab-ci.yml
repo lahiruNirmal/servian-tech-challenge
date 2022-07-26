@@ -7,7 +7,7 @@ image:
   name: hashicorp/terraform:light
   entrypoint: [""]
 
-variables:
+variables: &common_vars
   TF_ADDRESS: "https://gitlab.com/api/v4/projects/${PROJECT_ID}/terraform/state/teach-challenge-state"
   backend_config: |
     -backend-config=address=${TF_ADDRESS} \
@@ -21,6 +21,8 @@ variables:
 
 validate:
   stage: lint
+  variables:
+    <<: common_vars
   script:
     - terraform --version
     - cd ${CI_PROJECT_DIR}/tf_templates
@@ -29,6 +31,8 @@ validate:
 
 plan:
   stage: plan
+  variables:
+    <<: common_vars
   script:
     - cd ${CI_PROJECT_DIR}/tf_templates
     - terraform init ${backend_config}
@@ -37,6 +41,8 @@ plan:
 apply:
   stage: apply
   when: manual
+  variables:
+    <<: common_vars
   script:
     - cd ${CI_PROJECT_DIR}/tf_templates
     - terraform init ${backend_config}
