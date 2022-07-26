@@ -4,7 +4,7 @@ stages:
   - apply
 
 image: 
-  name: hashicorp/terraform:latest
+  name: hashicorp/terraform:light
   entrypoint: [""]
 
 validate:
@@ -22,3 +22,9 @@ plan:
     - terraform init
     - terraform plan
 
+apply:
+  stage: plan
+  script:
+    - cd ${CI_PROJECT_DIR}/tf_templates
+    - terraform init
+    - terraform apply -auto-approve
