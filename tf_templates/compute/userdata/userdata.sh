@@ -3,9 +3,29 @@
 # Download the release v.0.10.0
 mkdir app && cd app
 sudo yum update -y
-sudo yum install -y unzip
+sudo yum install -y wget unzip jq curl
+
+# Get secrets from AWS secret manager
+secret=$(aws secretsmanager get-secret-value --secret-id db/tech_challenge_secret)
+DB_USERNAME=$(echo ${secret} | jq '.SecretString | fromjson | .db_username')
+DB_PASSWORD=$(echo ${secret} | jq '.SecretString | fromjson | .db_password')
+DB_ENDPOINT=$(echo ${secret} | jq '.SecretString | fromjson | .db_enpoint')
+DB_PORT=$(echo ${secret} | jq '.SecretString | fromjson | .db_port')
+LISTEN_HOST=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
+
+# Configure conf.toml
 wget https://github.com/servian/TechChallengeApp/releases/download/v.0.10.0/TechChallengeApp_v.0.10.0_linux64.zip
 unzip TechChallengeApp_v.0.10.0_linux64.zip -d ./
+cd dist
+
+sed -i 's/"DbUser" =.*/"DbUser" ="'${DB_USERNAME}'"/g' conf.toml
+sed -i 's/"DbPassword" =.*/"DbPassword" ="'${DB_PASSWORD}'"/g' conf.toml
+sed -i 's/"DbHost" =.*/"DbHost" ="'${DB_ENDPOINT}'"/g' conf.toml
+sed -i 's/"DbPort" =.*/"DbPort" ="'${DB_PORT}'"/g' conf.toml
+sed -i 's/"ListenHost" =.*/"ListenHost" ="'${LISTEN_HOST}'"/g' conf.toml
+
+aws autoscaling describe-auto-scaling-groups | jq '.AutoScalingGroups[] | .Instances | length' 
+
 
 # Deploy the application
 ./TechChallengeApp serve

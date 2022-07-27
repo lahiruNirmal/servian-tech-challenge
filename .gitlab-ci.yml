@@ -20,19 +20,20 @@ variables: &common_vars
     -backend-config=lock_method=POST 
     -backend-config=unlock_method=DELETE 
     -backend-config=retry_wait_min=5
+  autoscaling: >
+    aws autoscaling describe-auto-scaling-groups |
+    jq -c  '.AutoScalingGroups[] | 
+    select(.AutoScalingGroupName |
+    contains("prod")) | 
+    {name: .AutoScalingGroupName, instances: (.Instances | length)}'
+
 
 configure-application:
   stage: download-app
+  variables:
+    <<: *common_vars
   script:
-    - mkdir app && cd app
-    - wget https://github.com/servian/TechChallengeApp/releases/download/v.0.10.0/TechChallengeApp_v.0.10.0_linux64.zip
-    - unzip TechChallengeApp_v.0.10.0_linux64.zip -d ./
-    - sed -i 's/"DbUser" =.*/"DbUser" ="'${DB_USER}'"/g' ${CI_PROJECT_DIR}/app/dist/conf.toml
-    - echo ${DB_USER}
-    - cat ./dist/conf.toml
-  artifacts:
-    paths:
-      - ${CI_PROJECT_DIR}/tf_templates/compute/userdata/
+  - $autoscaling
 
 # validate:
 #   stage: lint

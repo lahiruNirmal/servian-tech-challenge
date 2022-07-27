@@ -24,10 +24,12 @@ resource "aws_launch_configuration" "as_config" {
   image_id      = data.aws_ami.ec2_ami.id
   instance_type = "t2.micro"
   security_groups = ["application-sg"]
-
+  iam_instance_profile = aws_iam_instance_profile.ec2-iam-instance-profile.name
   lifecycle {
     create_before_destroy = true
   }
 
   user_data = "${file("${path.module}/userdata/userdata.sh")}"
 }
+
+
