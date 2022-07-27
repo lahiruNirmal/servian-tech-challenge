@@ -8,7 +8,6 @@ terraform {
   required_version = "~> 1.0"
 }
 
-
 provider "aws" {
   region = var.region
   access_key = "AKIATF3PPMY5H7GRAH36"
