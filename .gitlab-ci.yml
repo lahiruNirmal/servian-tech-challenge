@@ -33,8 +33,10 @@ configure-application:
   - asg=$(aws autoscaling describe-auto-scaling-groups)
   - yum install -y jq
   - echo ${asg}
-  - count=$(echo ${asg} | jq -c '.AutoScalingGroups[] | select(.AutoScalingGroupName | contains("test-asg")) | .Instances | length')
-  - echo ${count} 
+  - ASG=$(aws autoscaling describe-auto-scaling-groups)
+  - ASG_INSTANCE_COUNT=$(echo ${ASG} | jq -c '.AutoScalingGroups[] | select(.AutoScalingGroupName | contains("test-asg")) | .Instances | length')
+  - echo ${ASG_INSTANCE_COUNT}
+
 
 # validate:
 #   stage: lint

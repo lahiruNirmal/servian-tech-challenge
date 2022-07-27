@@ -24,7 +24,7 @@ sed -i 's/"DbHost" =.*/"DbHost" ="'${DB_ENDPOINT}'"/g' conf.toml
 sed -i 's/"DbPort" =.*/"DbPort" ="'${DB_PORT}'"/g' conf.toml
 sed -i 's/"ListenHost" =.*/"ListenHost" ="'${LISTEN_HOST}'"/g' conf.toml
 
-aws autoscaling describe-auto-scaling-groups | jq '.AutoScalingGroups[] | .Instances | length' 
+ASG=$(aws autoscaling describe-auto-scaling-groups) | jq '.AutoScalingGroups[] | .Instances | length' 
 
 
 # Deploy the application
