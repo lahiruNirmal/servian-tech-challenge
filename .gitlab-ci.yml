@@ -30,9 +30,13 @@ variables: &common_vars
 
 configure-application:
   stage: download-app
+  image: 
+    name: amazon/aws-cli
+    entrypoint: [""]
   variables:
     <<: *common_vars
   script:
+  - export DEFAULT_AWS_REGION=${AWS_REGION}
   - $autoscaling
 
 # validate:
