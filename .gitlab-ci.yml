@@ -37,7 +37,8 @@ configure-application:
     <<: *common_vars
   script:
   - export DEFAULT_AWS_REGION=${AWS_REGION}
-  - $autoscaling
+  - asg=$(aws autoscaling describe-auto-scaling-groups)
+  - echo ${asg} | jq -c  '.AutoScalingGroups[] select(.AutoScalingGroupName | contains("prod")) | .Instances | length'
 
 # validate:
 #   stage: lint
