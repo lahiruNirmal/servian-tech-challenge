@@ -19,7 +19,7 @@ data "aws_ami" "ec2_ami" {
   owners = ["amazon"] 
 }
 
-resource "aws_launch_configuration" "as_config" {
+resource "aws_launch_configuration" "lc_config" {
   name_prefix   = "tech-challenge-app-server-"
   image_id      = data.aws_ami.ec2_ami.id
   instance_type = "t2.micro"
