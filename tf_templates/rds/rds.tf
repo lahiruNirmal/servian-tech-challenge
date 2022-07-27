@@ -36,7 +36,7 @@ resource "random_string" "postgres-db-password" {
 
 resource "aws_db_subnet_group" "db_subnet_group" {
   name       = var.db_subnet_group_name
-  subnet_ids = [var.db_subnet_id]
+  subnet_ids = var.db_subnet_ids
 
   tags = {
     Name = "tech-challenge db subnet group"
