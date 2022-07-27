@@ -38,7 +38,7 @@ configure-application:
   script:
   - export DEFAULT_AWS_REGION=${AWS_REGION}
   - asg=$(aws autoscaling describe-auto-scaling-groups)
-  - pip install jq
+  - apk add jq
   - echo ${asg} | jq -c  '.AutoScalingGroups[] select(.AutoScalingGroupName | contains("prod")) | .Instances | length'
 
 # validate:
