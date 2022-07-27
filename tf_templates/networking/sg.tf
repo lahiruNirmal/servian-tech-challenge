@@ -5,7 +5,6 @@ resource "aws_security_group" "lb-sg" {
 
   tags = {
     Name = "Load Balancer SG"
-    Organization = "Servian"
   }
 }
 
@@ -16,7 +15,6 @@ resource "aws_security_group" "application-sg" {
 
   tags = {
     Name = "Application SG"
-    Organization = "Servian"
   }
 }
 
@@ -28,7 +26,6 @@ resource "aws_security_group" "db-sg" {
 
   tags = {
     Name = "Database SG"
-    Organization = "Servian"
   }
 }
 

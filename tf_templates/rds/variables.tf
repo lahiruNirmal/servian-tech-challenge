@@ -17,6 +17,6 @@ variable "db_security_group_id" {
   description = "DB security group ID"
 }
 
-variable "db_subnet_id" {
+variable "db_subnet_ids" {
   description = "Database subnet ID"
 }

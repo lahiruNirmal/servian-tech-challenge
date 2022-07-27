@@ -3,7 +3,6 @@ resource "aws_internet_gateway" "igw" {
 
   tags = {
     Name = "tech-challenge-igw"
-    Organization = "Servian"
   }
 }
 
@@ -13,7 +12,6 @@ resource "aws_nat_gateway" "ngw" {
 
   tags = {
     Name = "tech-challenge-ngw"
-    Organization = "Servian"
   }
 
   # To ensure proper ordering, it is recommended to add an explicit dependency

@@ -13,7 +13,6 @@ resource "aws_route_table" "public-subnet-route-table" {
 
   tags = {
     Name = "public-subnet-route-table"
-    Organization = "Servian"
   }
 }
 
@@ -27,16 +26,35 @@ resource "aws_route_table" "private-subnet-route-table" {
 
   tags = {
     Name = "private-subnet-route-table"
-    Organization = "Servian"
   }
 }
 
-resource "aws_route_table_association" "public-subnet-route-table-association" {
-  subnet_id      = aws_subnet.public-subnet.id
+resource "aws_route_table_association" "public-subnet-1-route-table-association" {
+  subnet_id      = aws_subnet.public-subnet-1.id
   route_table_id = aws_route_table.public-subnet-route-table.id
 }
 
-resource "aws_route_table_association" "application-subnet-route-table-association" {
-  subnet_id      = aws_subnet.application-subnet.id
+resource "aws_route_table_association" "public-subnet-2-route-table-association" {
+  subnet_id      = aws_subnet.public-subnet-2.id
+  route_table_id = aws_route_table.public-subnet-route-table.id
+}
+
+resource "aws_route_table_association" "application-subnet-1-route-table-association" {
+  subnet_id      = aws_subnet.application-subnet-1.id
+  route_table_id = aws_route_table.private-subnet-route-table.id
+}
+
+resource "aws_route_table_association" "application-subnet-2-route-table-association" {
+  subnet_id      = aws_subnet.application-subnet-2.id
+  route_table_id = aws_route_table.private-subnet-route-table.id
+}
+
+resource "aws_route_table_association" "db-subnet-1-route-table-association" {
+  subnet_id      = aws_subnet.db-subnet-1.id
+  route_table_id = aws_route_table.private-subnet-route-table.id
+}
+
+resource "aws_route_table_association" "db-subnet-2-route-table-association" {
+  subnet_id      = aws_subnet.db-subnet-2.id
   route_table_id = aws_route_table.private-subnet-route-table.id
 }
