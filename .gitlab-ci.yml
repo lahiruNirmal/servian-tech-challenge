@@ -20,13 +20,6 @@ variables: &common_vars
     -backend-config=lock_method=POST 
     -backend-config=unlock_method=DELETE 
     -backend-config=retry_wait_min=5
-  autoscaling: >
-    aws autoscaling describe-auto-scaling-groups |
-    jq -c  '.AutoScalingGroups[] | 
-    select(.AutoScalingGroupName |
-    contains("prod")) | 
-    {name: .AutoScalingGroupName, instances: (.Instances | length)}'
-
 
 configure-application:
   stage: download-app
@@ -39,7 +32,8 @@ configure-application:
   - export DEFAULT_AWS_REGION=${AWS_REGION}
   - asg=$(aws autoscaling describe-auto-scaling-groups)
   - yum install -y jq
-  - echo ${asg} | jq -c  '.AutoScalingGroups[] select(.AutoScalingGroupName | contains("prod")) | .Instances | length'
+  - echo ${asg}
+  - echo ${asg} | jq -c '.AutoScalingGroups[] select(.AutoScalingGroupName | contains("prod")) | .Instances | length'
 
 # validate:
 #   stage: lint
