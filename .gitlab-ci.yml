@@ -27,7 +27,7 @@ configure-application:
     - mkdir app && cd app
     - wget https://github.com/servian/TechChallengeApp/releases/download/v.0.10.0/TechChallengeApp_v.0.10.0_linux64.zip
     - unzip TechChallengeApp_v.0.10.0_linux64.zip -d ./
-    - sed -i 's/DbUser =.*/DbUser ='${DB_USER}'/g' ${CI_PROJECT_DIR}/app/dist/conf.toml
+    - sed -i 's/"DbUser" =.*/"DbUser" ="'${DB_USER}'"/g' ${CI_PROJECT_DIR}/app/dist/conf.toml
     - echo ${DB_USER}
     - cat ./dist/conf.toml
   artifacts:
