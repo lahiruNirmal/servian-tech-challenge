@@ -27,7 +27,7 @@ base:
     tfvars_file_path: "${CI_PROJECT_DIR}/tf_templates/terraform.tfvars"
     DB_SECRET_NAME: test_secret_path
   script:
-    - sed -i 's/region.*/region = "us-east-1"'${AWS_REGION}'"/g' $tfvars_file_path
+    - sed -i 's/region.*/region = "'${AWS_REGION}'"/g' $tfvars_file_path
     - |
       if [[ -z ${DB_SECRET_NAME} ]]; then 
       sed -i 's/db_secret_name .*/db_secret_name = "db/tech_challenge_secret"/g' $tfvars_file_path 
