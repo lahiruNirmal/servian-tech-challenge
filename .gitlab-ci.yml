@@ -20,8 +20,7 @@ variables: &common_vars
     -backend-config=unlock_method=DELETE 
     -backend-config=retry_wait_min=5
 
-base:
-  stage: lint
+.base:
   variables:
     userdata_file_path: "${CI_PROJECT_DIR}/tf_templates/compute/userdata/userdata.sh"
     tfvars_file_path: "${CI_PROJECT_DIR}/tf_templates/terraform.tfvars"
@@ -39,49 +38,45 @@ base:
     - sed -i 's/export AWS_DEFAULT_REGION=.*/export AWS_DEFAULT_REGION='${AWS_REGION}'/g' $userdata_file_path
     - cat $userdata_file_path
 
+validate:
+  stage: lint
+  extends: .base
+  variables:
+    <<: *common_vars
+  script:
+    - terraform --version
+    - cd ${CI_PROJECT_DIR}/tf_templates
+    - terraform init $backend_config
+    - terraform validate
 
-# Add hiddenjob to set secret, region
+plan:
+  stage: plan
+  extends: .base
+  variables:
+    <<: *common_vars
+  script:
+    - cd ${CI_PROJECT_DIR}/tf_templates
+    - terraform init $backend_config
+    - terraform plan
 
-# validate:
-#   stage: lint
-#   variables:
-#     <<: *common_vars
-#   before_script:
-#     - mkdir app && cd app
-#     - wget https://github.com/servian/TechChallengeApp/releases/download/v.0.10.0/TechChallengeApp_v.0.10.0_linux64.zip
-#     - unzip TechChallengeApp_v.0.10.0_linux64.zip -d ./
-#   script:
-#     - terraform --version
-#     - cd ${CI_PROJECT_DIR}/tf_templates
-#     - echo $backend_config
-#     - terraform init $backend_config
-#     - terraform validate
+apply:
+  stage: apply
+  extends: .base
+  when: manual
+  variables:
+    <<: *common_vars    
+  script:
+    - cd ${CI_PROJECT_DIR}/tf_templates
+    - terraform init $backend_config
+    - terraform apply -auto-approve
 
-# plan:
-#   stage: plan
-#   variables:
-#     <<: *common_vars
-#   script:
-#     - cd ${CI_PROJECT_DIR}/tf_templates
-#     - terraform init $backend_config
-#     - terraform plan
-
-# apply:
-#   stage: apply
-#   when: manual
-#   variables:
-#     <<: *common_vars    
-#   script:
-#     - cd ${CI_PROJECT_DIR}/tf_templates
-#     - terraform init $backend_config
-#     - terraform apply -auto-approve
-
-# destroy:
-#   stage: destroy
-#   when: manual
-#   variables:
-#     <<: *common_vars
-#   script:
-#     - cd ${CI_PROJECT_DIR}/tf_templates
-#     - terraform init $backend_config
-#     - terraform destroy -auto-approve
+destroy:
+  stage: destroy
+  extends: .base
+  when: manual
+  variables:
+    <<: *common_vars
+  script:
+    - cd ${CI_PROJECT_DIR}/tf_templates
+    - terraform init $backend_config
+    - terraform destroy -auto-approve
