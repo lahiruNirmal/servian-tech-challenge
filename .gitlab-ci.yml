@@ -21,7 +21,7 @@ variables: &common_vars
     -backend-config=retry_wait_min=5
 
 base:
-stage: lint
+  stage: lint
   variables:
     userdata_file_path: "${CI_PROJECT_DIR}/tf_templates/compute/userdata/conf.toml"
     tfvars_file_path: "${CI_PROJECT_DIR}/tf_templates/terraform.tfvars"
