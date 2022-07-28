@@ -36,8 +36,8 @@ base:
       fi
     - cd ${CI_PROJECT_DIR}/tf_templates && terraform fmt -recursive  
     - cat ${CI_PROJECT_DIR}/tf_templates/terraform.tfvars
-    - cat $userdata_file_path
     - sed -i 's/export AWS_DEFAULT_REGION=.*/export AWS_DEFAULT_REGION='${AWS_REGION}'/g' $userdata_file_path
+    - cat $userdata_file_path
 
 
 # Add hiddenjob to set secret, region
