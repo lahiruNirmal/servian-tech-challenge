@@ -1,12 +1,13 @@
 # DB master instance
 resource "aws_db_instance" "db" {
-  allocated_storage = 5
-  engine            = var.db_engine
-  engine_version    = var.db_engine_version
-  instance_class    = var.db_instace_class
-  # db_name                 = var.db_name
+  # db_name         = var.db_name
+  allocated_storage      = 5
+  engine                 = var.db_engine
+  engine_version         = var.db_engine_version
+  instance_class         = var.db_instace_class
   identifier             = var.db_identifier
   username               = var.username
+  db_subnet_group_name   = aws_db_subnet_group.db-subnet-group.name
   password               = random_string.postgres-db-password.result
   vpc_security_group_ids = [var.db_security_group_id]
   skip_final_snapshot    = true
@@ -20,13 +21,14 @@ resource "aws_db_instance" "db" {
 
 # DB read replicas
 resource "aws_db_instance" "db-read-replica" {
-  count               = var.number_of_read_replicas
-  replicate_source_db = aws_db_instance.db.identifier
-  identifier          = format("%s-%s", var.db_identifier, count.index)
-  engine              = var.db_engine
-  engine_version      = var.db_engine_version
-  instance_class      = var.db_instace_class
-  # db_name                 = var.db_name
+  # db_name           = var.db_name
+  count                  = var.number_of_read_replicas
+  replicate_source_db    = aws_db_instance.db.identifier
+  identifier             = format("%s-%s", var.db_identifier, count.index)
+  engine                 = var.db_engine
+  engine_version         = var.db_engine_version
+  instance_class         = var.db_instace_class
+  db_subnet_group_name   = aws_db_subnet_group.db-subnet-group.name
   vpc_security_group_ids = [var.db_security_group_id]
   skip_final_snapshot    = true
   publicly_accessible    = false
@@ -46,8 +48,8 @@ resource "random_string" "postgres-db-password" {
 }
 
 # The subnets to be used for DB instances 
-resource "aws_db_subnet_group" "db_subnet_group" {
-  name       = var.db_subnet_group_name
+resource "aws_db_subnet_group" "db-subnet-group" {
+  name       = "db-subnet-group"
   subnet_ids = var.db_subnet_ids
 
   tags = {

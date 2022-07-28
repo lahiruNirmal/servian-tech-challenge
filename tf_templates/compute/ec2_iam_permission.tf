@@ -44,9 +44,6 @@ resource "aws_iam_role_policy" "secrets-access-policy" {
 }
 EOF
 
-  tags = {
-    Name = "tech-challenge-secrets-access-policy"
-  }
 }
 
 # IAM role to be assigned to the application VMs
