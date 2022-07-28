@@ -5,20 +5,20 @@
 # In each layer, availability zones a and b are selected from the selected region for each subnet respectively
 
 resource "aws_subnet" "public-subnet-1" {
-  vpc_id            = aws_vpc.tech-challenge.id
-  cidr_block        = "10.0.1.0/28"
-  availability_zone = local.zone_a
-
+  vpc_id                  = aws_vpc.tech-challenge.id
+  cidr_block              = "10.0.1.0/28"
+  availability_zone       = local.zone_a
+  map_public_ip_on_launch = true
   tags = {
     Name = "public-subnet-1"
   }
 }
 
 resource "aws_subnet" "public-subnet-2" {
-  vpc_id            = aws_vpc.tech-challenge.id
-  cidr_block        = "10.0.1.16/28"
-  availability_zone = local.zone_b
-
+  vpc_id                  = aws_vpc.tech-challenge.id
+  cidr_block              = "10.0.1.16/28"
+  availability_zone       = local.zone_b
+  map_public_ip_on_launch = true
   tags = {
     Name = "public-subnet-2"
   }

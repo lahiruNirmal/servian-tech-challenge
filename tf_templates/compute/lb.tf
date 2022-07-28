@@ -23,7 +23,7 @@ resource "aws_lb_listener" "lb-http-listener" {
 resource "aws_lb_target_group" "app-tg" {
   name     = "app-tg"
   port     = 3000
-  protocol = "HTTP"
+  protocol = "TCP"
   vpc_id   = var.vpc_id
 
   health_check {
