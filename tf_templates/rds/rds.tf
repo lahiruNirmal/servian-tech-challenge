@@ -30,7 +30,6 @@ resource "aws_db_instance" "db-read-replica" {
   replicate_source_db    = aws_db_instance.db.identifier
   identifier             = format("%s-%s", var.db_identifier, count.index)
   instance_class         = var.db_instace_class
-  db_subnet_group_name   = aws_db_subnet_group.db-subnet-group.name
   vpc_security_group_ids = [var.db_security_group_id]
   skip_final_snapshot    = true
   publicly_accessible    = false
