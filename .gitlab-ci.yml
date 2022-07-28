@@ -1,5 +1,4 @@
 stages:
-  - download-app
   - lint
   - plan
   - apply
@@ -21,22 +20,22 @@ variables: &common_vars
     -backend-config=unlock_method=DELETE 
     -backend-config=retry_wait_min=5
 
-configure-application:
-  stage: download-app
-  image: 
-    name: amazon/aws-cli
-    entrypoint: [""]
+base:
   variables:
-    <<: *common_vars
-  script:
-  - export DEFAULT_AWS_REGION=${AWS_REGION}
-  - asg=$(aws autoscaling describe-auto-scaling-groups)
-  - yum install -y jq
-  - echo ${asg}
-  - ASG=$(aws autoscaling describe-auto-scaling-groups)
-  - ASG_INSTANCE_COUNT=$(echo ${ASG} | jq -c '.AutoScalingGroups[] | select(.AutoScalingGroupName | contains("test-asg")) | .Instances | length')
-  - echo ${ASG_INSTANCE_COUNT}
+    userdata_file_path: "${CI_PROJECT_DIR}/tf_templates/compute/userdata/conf.toml"
+    tfvars_file_path: "${CI_PROJECT_DIR}/tf_templates/terraform.tfvars"
+  before_script:
+    - sed -i 's/region.*/region = "us-east-1"'${AWS_REGION}'"/g' $tfvars_file_path
+    - if [[ -z ${DB_SECRET_NAME} ]]; then \
+    sed -i 's/db_secret_name.*/db_secret_name = "db/tech_challenge_secret"/g' $tfvars_file_path else \
+    sed -i 's/db_secret_name.*/db_secret_name = "'${DB_SECRET_NAME}'"/g' $tfvars_file_path fi
+    - cd ${CI_PROJECT_DIR}/tf_templates && terraform fmt -recursive  
+    - cat ${CI_PROJECT_DIR}/tf_templates/terraform.tfvars
+    - cat $userdata_file_path
+    - sed -i 's/export AWS_DEFAULT_REGION=.*/export AWS_DEFAULT_REGION='${AWS_REGION}'/g' $userdata_file_path
 
+
+# Add hiddenjob to set secret, region
 
 # validate:
 #   stage: lint
