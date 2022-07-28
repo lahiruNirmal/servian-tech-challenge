@@ -25,6 +25,16 @@ resource "aws_lb_target_group" "app-tg" {
   port     = 3000
   protocol = "HTTP"
   vpc_id   = var.vpc_id
+
+  health_check {
+    enabled             = true
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+    interval            = 5
+    path                = "/healthcheck/"
+    port                = 3000
+    timeout             = 10
+  }
 }
 
 # ASG attachment to target group
