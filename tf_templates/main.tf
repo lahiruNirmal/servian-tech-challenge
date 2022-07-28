@@ -14,9 +14,10 @@ module "db" {
 # Compute module
 module "compute" {
   source            = "./compute"
-  application_sg_id = module.network.app_sg_id
+  app_sg_id         = module.network.app_sg_id
   lb_sg_id          = module.network.lb_sg_id
   public_subnet_ids = [module.network.public_subnet_1_id, module.network.public_subnet_2_id]
+  app_subnet_ids    = [module.network.app_subnet_1_id, module.network.app_subnet_2_id]
   vpc_id            = module.network.vpc_id
   region            = var.region
   db_secret_name    = var.db_secret_name
@@ -26,4 +27,5 @@ module "compute" {
     db_endpoint = module.rds.rds_endpoint
     db_port     = module.rds.rds_port
   }
+
 }
