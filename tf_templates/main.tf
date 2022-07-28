@@ -22,8 +22,8 @@ module "compute" {
   region            = var.region
   db_secret_name    = var.db_secret_name
   db_secret = {
-    db_username = module.db.db_password
-    db_password = module.db.db_username
+    db_username = module.db.db_username
+    db_password = module.db.db_password
     db_endpoint = module.db.rds_endpoint
     db_port     = module.db.rds_port
   }
