@@ -22,10 +22,10 @@ module "compute" {
   region            = var.region
   db_secret_name    = var.db_secret_name
   db_secret = {
-    db_username = module.rds.db_password
-    db_password = module.rds.db_username
-    db_endpoint = module.rds.rds_endpoint
-    db_port     = module.rds.rds_port
+    db_username = module.db.db_password
+    db_password = module.db.db_username
+    db_endpoint = module.db.rds_endpoint
+    db_port     = module.db.rds_port
   }
 
 }

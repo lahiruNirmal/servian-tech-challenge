@@ -41,7 +41,7 @@ resource "aws_db_instance" "db-read-replica" {
 resource "random_string" "postgres-db-password" {
   length  = 32
   upper   = true
-  number  = true
+  numeric = true
   special = false
 }
 
