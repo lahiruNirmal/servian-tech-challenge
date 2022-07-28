@@ -25,8 +25,6 @@ resource "aws_db_instance" "db-read-replica" {
   count                  = var.number_of_read_replicas
   replicate_source_db    = aws_db_instance.db.identifier
   identifier             = format("%s-%s", var.db_identifier, count.index)
-  engine                 = var.db_engine
-  engine_version         = var.db_engine_version
   instance_class         = var.db_instace_class
   db_subnet_group_name   = aws_db_subnet_group.db-subnet-group.name
   vpc_security_group_ids = [var.db_security_group_id]
