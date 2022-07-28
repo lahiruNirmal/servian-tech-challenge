@@ -30,10 +30,10 @@ resource "aws_lb_target_group" "app-tg" {
     enabled             = true
     healthy_threshold   = 3
     unhealthy_threshold = 3
-    interval            = 5
+    interval            = 10
     path                = "/healthcheck/"
     port                = 3000
-    timeout             = 10
+    timeout             = 5
   }
 }
 
