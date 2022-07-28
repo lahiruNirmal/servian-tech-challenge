@@ -8,7 +8,9 @@ resource "aws_autoscaling_group" "app-asg" {
   depends_on           = [aws_secretsmanager_secret.db-secret, aws_secretsmanager_secret_version.db-secret-version]
 
   tag {
-    Name = "Application ASG"
+    key                 = "Name"
+    value               = "tech-challenge db subnet group"
+    propagate_at_launch = true
   }
 }
 
