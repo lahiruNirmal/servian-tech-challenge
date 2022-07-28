@@ -6,7 +6,7 @@ sudo yum update -y
 sudo yum install -y wget unzip jq curl
 
 # Get secrets from AWS secret manager
-secret=$(aws secretsmanager get-secret-value --secret-id db/tech_challenge_secret)
+secret=$(aws secretsmanager get-secret-value --secret-id db_secret)
 DB_USERNAME=$(echo ${secret} | jq '.SecretString | fromjson | .db_username')
 DB_PASSWORD=$(echo ${secret} | jq '.SecretString | fromjson | .db_password')
 DB_ENDPOINT=$(echo ${secret} | jq '.SecretString | fromjson | .db_endpoint')
@@ -25,7 +25,7 @@ sed -i 's/"DbPort" =.*/"DbPort" ="'${DB_PORT}'"/g' conf.toml
 sed -i 's/"ListenHost" =.*/"ListenHost" ="'${LISTEN_HOST}'"/g' conf.toml
 
 # Get the number of instances in the ASG. If instances are 0, then update db operation needed.
-export AWS_DEFAULT_REGION=us-east-1
+export AWS_DEFAULT_REGION=region
 ASG=$(aws autoscaling describe-auto-scaling-groups)
 ASG_INSTANCE_COUNT=$(echo ${ASG} | jq -c '.AutoScalingGroups[] | select(.AutoScalingGroupName | contains("test-asg")) | .Instances | length')
 ASG_INSTANCE_COUNT=$((ASG_INSTANCE_COUNT))

@@ -1,3 +1,5 @@
+# IAM permissions to be applied to application VMs
+
 resource "aws_iam_role_policy" "secrets-access-policy" {
   name = "tech-challenge-secrets-access-policy"
   role = aws_iam_role.ec2-secret-role.id
@@ -42,11 +44,12 @@ resource "aws_iam_role_policy" "secrets-access-policy" {
 }
 EOF
 
-    tags = {
-        Name = "tech-challenge-secrets-access-policy"
-    }
+  tags = {
+    Name = "tech-challenge-secrets-access-policy"
+  }
 }
 
+# IAM role to be assigned to the application VMs
 resource "aws_iam_role" "ec2-secret-role" {
   name = "ec2-secret-role"
 
@@ -67,17 +70,17 @@ resource "aws_iam_role" "ec2-secret-role" {
 EOF
 
   tags = {
-      Name = "tech-challenge-ec2-secret-role"
+    Name = "tech-challenge-ec2-secret-role"
   }
 }
 
 
-
+# IAM instance profile to be attached to the application VMs
 resource "aws_iam_instance_profile" "ec2-iam-instance-profile" {
   name = "ec2-iam-instance-profile"
   role = aws_iam_role.ec2-secret-role.name
 
   tags = {
-        Name = "tech-challenge-ec2-iam-instance-profile"
-    }
+    Name = "tech-challenge-ec2-iam-instance-profile"
+  }
 }

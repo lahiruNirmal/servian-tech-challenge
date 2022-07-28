@@ -1,3 +1,3 @@
-locals {
-    db_identifier_read_replica_prefix = format("%s-",var.var.db_identifier)
-}
+# locals {
+#     db_identifier_read_replica_prefix = format("%s-", var.db_identifier)
+# }

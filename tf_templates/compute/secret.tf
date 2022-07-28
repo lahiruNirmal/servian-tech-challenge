@@ -1,5 +1,5 @@
 resource "aws_secretsmanager_secret" "db-secret" {
-  name = "db/tech_challenge_secret"
+  name        = var.db_secret_name
   description = "Secret for username and password for DB"
 }
 

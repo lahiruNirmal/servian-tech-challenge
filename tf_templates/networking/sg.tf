@@ -50,28 +50,28 @@ resource "aws_security_group_rule" "http-rule" {
 }
 
 resource "aws_security_group_rule" "application-https-rule" {
-  type              = "ingress"
-  from_port         = 0
-  to_port           = 443
-  protocol          = "tcp"
+  type                     = "ingress"
+  from_port                = 0
+  to_port                  = 443
+  protocol                 = "tcp"
   source_security_group_id = aws_security_group.lb-sg.id
-  security_group_id = aws_security_group.application-sg.id
+  security_group_id        = aws_security_group.application-sg.id
 }
 
 resource "aws_security_group_rule" "application-http-rule" {
-  type              = "ingress"
-  from_port         = 0
-  to_port           = 80
-  protocol          = "tcp"
+  type                     = "ingress"
+  from_port                = 0
+  to_port                  = 80
+  protocol                 = "tcp"
   source_security_group_id = aws_security_group.lb-sg.id
-  security_group_id = aws_security_group.application-sg.id
+  security_group_id        = aws_security_group.application-sg.id
 }
 
 resource "aws_security_group_rule" "db-rule" {
-  type              = "ingress"
-  from_port         = 0
-  to_port           = 5432
-  protocol          = "tcp"
+  type                     = "ingress"
+  from_port                = 0
+  to_port                  = 5432
+  protocol                 = "tcp"
   source_security_group_id = aws_security_group.application-sg.id
-  security_group_id = aws_security_group.db-sg.id
+  security_group_id        = aws_security_group.db-sg.id
 }

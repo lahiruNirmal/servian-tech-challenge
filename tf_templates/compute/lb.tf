@@ -1,3 +1,4 @@
+# ALB to handle incoming traffic to application
 resource "aws_lb" "app-lb" {
   name               = "app-lb"
   internal           = false
@@ -6,6 +7,7 @@ resource "aws_lb" "app-lb" {
   subnets            = var.public_subnet_ids
 }
 
+# HTTP listener for ALB
 resource "aws_lb_listener" "lb-http-listener" {
   load_balancer_arn = aws_lb.app-lb.arn
   port              = "80"
@@ -17,13 +19,15 @@ resource "aws_lb_listener" "lb-http-listener" {
   }
 }
 
+# Application VMs target group
 resource "aws_lb_target_group" "app-tg" {
-   name     = "app-tg"
-   port     = 3000
-   protocol = "HTTP"
-   vpc_id   = var.vpc-id
- }
+  name     = "app-tg"
+  port     = 3000
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+}
 
+# ASG attachment to target group
 resource "aws_autoscaling_attachment" "as-attachment" {
   autoscaling_group_name = aws_autoscaling_group.app-asg.id
   alb_target_group_arn   = aws_lb_target_group.app-tg.arn

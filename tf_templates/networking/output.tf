@@ -6,6 +6,10 @@ output "lb_sg_id" {
   value = aws_security_group.lb-sg.id
 }
 
+output "app_sg_id" {
+  value = aws_security_group.application-sg.id
+}
+
 output "public_subnet_1_id" {
   value = aws_subnet.public-subnet-1.id
 }
