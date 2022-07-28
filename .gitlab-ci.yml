@@ -25,7 +25,7 @@ base:
   variables:
     userdata_file_path: "${CI_PROJECT_DIR}/tf_templates/compute/userdata/conf.toml"
     tfvars_file_path: "${CI_PROJECT_DIR}/tf_templates/terraform.tfvars"
-  before_script:
+  script:
     - sed -i 's/region.*/region = "us-east-1"'${AWS_REGION}'"/g' $tfvars_file_path
     - |
       if [[ -z ${DB_SECRET_NAME} ]]; then 
