@@ -23,7 +23,7 @@ variables: &common_vars
 base:
   stage: lint
   variables:
-    userdata_file_path: "${CI_PROJECT_DIR}/tf_templates/compute/userdata/conf.toml"
+    userdata_file_path: "${CI_PROJECT_DIR}/tf_templates/compute/userdata/userdata.sh"
     tfvars_file_path: "${CI_PROJECT_DIR}/tf_templates/terraform.tfvars"
     DB_SECRET_NAME: test_secret_path
   script:
