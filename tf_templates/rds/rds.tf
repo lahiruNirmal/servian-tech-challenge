@@ -12,7 +12,7 @@ resource "aws_db_instance" "db" {
   vpc_security_group_ids = [var.db_security_group_id]
   skip_final_snapshot    = true
   publicly_accessible    = false
-  multi_az               = true
+  multi_az               = false
 
   tags = {
     "Name" = "tech-challenge-db-master"
@@ -22,7 +22,7 @@ resource "aws_db_instance" "db" {
 # DB read replicas
 resource "aws_db_instance" "db-read-replica" {
   # db_name           = var.db_name
-  count                  = var.number_of_read_replicas
+  count                  = var.number_of_read_replicas 
   replicate_source_db    = aws_db_instance.db.identifier
   identifier             = format("%s-%s", var.db_identifier, count.index)
   instance_class         = var.db_instace_class
@@ -30,7 +30,7 @@ resource "aws_db_instance" "db-read-replica" {
   vpc_security_group_ids = [var.db_security_group_id]
   skip_final_snapshot    = true
   publicly_accessible    = false
-  multi_az               = true
+  multi_az               = false
 
   tags = {
     "Name" = "tech-challenge-db-replica"

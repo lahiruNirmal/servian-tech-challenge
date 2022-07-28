@@ -28,7 +28,7 @@ variable "db_engine" {
 }
 
 variable "db_engine_version" {
-  default     = "9.6"
+  default     = "10.17"
   description = "DB engine version to be used"
 }
 
@@ -38,6 +38,6 @@ variable "db_instace_class" {
 }
 
 variable "number_of_read_replicas" {
-  default     = 2
+  default     = 1
   description = "Number of read replicas for DB"
 }
