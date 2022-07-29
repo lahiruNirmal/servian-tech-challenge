@@ -31,7 +31,6 @@ resource "aws_security_group" "db-sg" {
 
 resource "aws_security_group_rule" "https-rule" {
   type              = "ingress"
-  from_port         = 0
   to_port           = 443
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
@@ -41,7 +40,6 @@ resource "aws_security_group_rule" "https-rule" {
 
 resource "aws_security_group_rule" "http-rule" {
   type              = "ingress"
-  from_port         = 0
   to_port           = 80
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
@@ -69,7 +67,6 @@ resource "aws_security_group_rule" "http-rule" {
 
 resource "aws_security_group_rule" "application-http-rule" {
   type                     = "ingress"
-  from_port                = 0
   to_port                  = 3000
   protocol                 = "tcp"
   source_security_group_id = aws_security_group.lb-sg.id
@@ -78,7 +75,6 @@ resource "aws_security_group_rule" "application-http-rule" {
 
 resource "aws_security_group_rule" "db-rule" {
   type                     = "ingress"
-  from_port                = 0
   to_port                  = 5432
   protocol                 = "tcp"
   source_security_group_id = aws_security_group.app-sg.id
@@ -87,7 +83,6 @@ resource "aws_security_group_rule" "db-rule" {
 
 resource "aws_security_group_rule" "application-egress-rule" {
   type              = "egress"
-  from_port         = 0
   to_port           = 0
   protocol          = -1
   cidr_blocks       = ["0.0.0.0/0"]
@@ -96,7 +91,6 @@ resource "aws_security_group_rule" "application-egress-rule" {
 
 resource "aws_security_group_rule" "lb-egress-rule" {
   type              = "egress"
-  from_port         = 0
   to_port           = 80
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]

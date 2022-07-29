@@ -29,7 +29,7 @@ module "compute" {
   }
 
   depends_on = [
-    module.db.db_password, 
+    module.db.db_password,
     module.db.rds_endpoint,
     module.network.public_subnet_1_id,
     module.network.public_subnet_2_id,

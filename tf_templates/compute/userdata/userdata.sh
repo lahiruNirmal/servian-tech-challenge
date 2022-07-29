@@ -1,9 +1,9 @@
 #! /bin/bash
 
 # Download the release v.0.10.0
-mkdir /home/ec2-user/app && cd /home/ec2-user/app
-sudo yum update -y
-sudo yum install -y wget unzip jq curl
+mkdir /app && cd /app
+yum update -y
+yum install -y wget unzip jq curl
 
 # Get secrets from AWS secret manager
 secret=$(aws secretsmanager get-secret-value --secret-id db_secret)
