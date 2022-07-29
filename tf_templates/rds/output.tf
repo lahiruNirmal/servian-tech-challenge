@@ -3,15 +3,15 @@ output "db_password" {
 }
 
 output "db_username" {
-  value = aws_rds_cluster.db.master_username
+  value = aws_db_instance.db.username
 }
 
 output "rds_endpoint" {
-  value = aws_rds_cluster.db.endpoint
+  value = aws_db_instance.db.address
 }
 
 output "rds_port" {
-  value = aws_rds_cluster.db.port
+  value = aws_db_instance.db.port
 }
 
 # output "db_password" {
