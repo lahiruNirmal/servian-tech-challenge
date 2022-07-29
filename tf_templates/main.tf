@@ -9,7 +9,7 @@ module "db" {
   source               = "./rds"
   db_security_group_id = module.network.db_sg_id
   db_subnet_ids        = [module.network.db_subnet_1_id, module.network.db_subnet_2_id, module.network.db_subnet_3_id]
-  db_az_zonnes         = module.network.az_zones
+  db_az_zones          = module.network.az_zones
 }
 
 # Compute module
