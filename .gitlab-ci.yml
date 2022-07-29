@@ -1,0 +1,84 @@
+stages:
+  - lint
+  - plan
+  - apply
+  - destroy
+
+image: 
+  name: hashicorp/terraform:light
+  entrypoint: [""]
+
+variables: &common_vars
+  TF_ADDRESS: "https://gitlab.com/api/v4/projects/${PROJECT_ID}/terraform/state/teach-challenge-state"
+  backend_config: >
+    -backend-config=address=$TF_ADDRESS 
+    -backend-config=lock_address=$TF_ADDRESS/lock 
+    -backend-config=unlock_address=$TF_ADDRESS/lock 
+    -backend-config=username=${TF_USERNAME} 
+    -backend-config=password=${TF_PASSWORD} 
+    -backend-config=lock_method=POST 
+    -backend-config=unlock_method=DELETE 
+    -backend-config=retry_wait_min=5
+
+.base:
+  variables:
+    userdata_file_path: "${CI_PROJECT_DIR}/tf_templates/compute/userdata/userdata.sh"
+    tfvars_file_path: "${CI_PROJECT_DIR}/tf_templates/terraform.tfvars"
+    # DB_SECRET_NAME: test27_secret_path
+  before_script:
+    - sed -i 's/region.*/region = "'${AWS_REGION}'"/g' $tfvars_file_path
+    - |
+      if [[ -z ${DB_SECRET_NAME} ]]; then 
+      sed -i 's/db_secret_name .*/db_secret_name = "db1/tech_challenge_secret"/g' $tfvars_file_path 
+      else
+      sed -i 's/db_secret_name .*/db_secret_name = "'${DB_SECRET_NAME}'"/g' $tfvars_file_path 
+      fi
+    - cd ${CI_PROJECT_DIR}/tf_templates && terraform fmt -recursive  
+    - cat ${CI_PROJECT_DIR}/tf_templates/terraform.tfvars
+    - sed -i 's/export AWS_DEFAULT_REGION=.*/export AWS_DEFAULT_REGION='${AWS_REGION}'/g' $userdata_file_path
+    - sed -i 's/secret=$(aws secretsmanager get-secret-value --secret-id.*/secret=$(aws secretsmanager get-secret-value --secret-id '${DB_SECRET_NAME}')/g' $userdata_file_path
+    - cat $userdata_file_path
+    - cat $tfvars_file_path
+
+validate:
+  stage: lint
+  extends: .base
+  variables:
+    <<: *common_vars
+  script:
+    - terraform --version
+    - cd ${CI_PROJECT_DIR}/tf_templates
+    - terraform init $backend_config
+    - terraform validate
+
+plan:
+  stage: plan
+  extends: .base
+  variables:
+    <<: *common_vars
+  script:
+    - cd ${CI_PROJECT_DIR}/tf_templates
+    - terraform init $backend_config
+    - terraform plan
+
+apply:
+  stage: apply
+  extends: .base
+  when: manual
+  variables:
+    <<: *common_vars    
+  script:
+    - cd ${CI_PROJECT_DIR}/tf_templates
+    - terraform init $backend_config
+    - terraform apply -auto-approve
+
+destroy:
+  stage: destroy
+  extends: .base
+  when: manual
+  variables:
+    <<: *common_vars
+  script:
+    - cd ${CI_PROJECT_DIR}/tf_templates
+    - terraform init $backend_config
+    - terraform destroy -auto-approve
