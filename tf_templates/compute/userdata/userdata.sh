@@ -31,18 +31,20 @@ ls
 sed -i 's/"DbUser" =.*/"DbUser" ='${DB_USERNAME}'/g' conf.toml
 sed -i 's/"DbPassword" =.*/"DbPassword" ='${DB_PASSWORD}'/g' conf.toml
 sed -i 's/"DbHost" =.*/"DbHost" ='${DB_ENDPOINT}'/g' conf.toml
-sed -i 's/"DbPort" =.*/"DbPort" ="'${DB_PORT}'"/g' conf.toml
-sed -i 's/"ListenHost" =.*/"ListenHost" ='${LISTEN_HOST}'/g' conf.toml
+sed -i 's/"DbPort" =.*/"DbPort" ='${DB_PORT}'/g' conf.toml
+sed -i 's/"ListenHost" =.*/"ListenHost" ="'${LISTEN_HOST}'"/g' conf.toml
 
 cat conf.toml
 
 # Get the number of instances in the ASG. If instances are 0, then update db operation needed.
 ASG=$(aws autoscaling describe-auto-scaling-groups)
-ASG_INSTANCE_COUNT=$(echo ${ASG} | jq -c '.AutoScalingGroups[] | select(.AutoScalingGroupName | contains("test-asg")) | .Instances | length')
+ASG_INSTANCE_COUNT=$(echo ${ASG} | jq -c '.AutoScalingGroups[] | select(.AutoScalingGroupName | contains("Application ASG")) | .Instances | length')
+echo ${ASG_INSTANCE_COUNT}
 ASG_INSTANCE_COUNT=$((ASG_INSTANCE_COUNT))
+echo ${ASG_INSTANCE_COUNT}
 
 # Update the database 
-if [[ ${ASG_INSTANCE_COUNT} -lt 1 ]]; then
+if [[ ${ASG_INSTANCE_COUNT} -le 1 ]]; then
     ./TechChallengeApp updatedb
 fi
 
