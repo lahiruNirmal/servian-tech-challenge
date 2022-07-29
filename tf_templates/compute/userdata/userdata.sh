@@ -1,5 +1,6 @@
 #! /bin/bash
 
+sudo su
 # Download the release v.0.10.0
 mkdir /app && cd /app
 yum update -y
