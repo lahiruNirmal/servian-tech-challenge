@@ -3,7 +3,7 @@ exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
 
 # Download the release v.0.10.0
 mkdir app && cd app
-# yum install -y wget unzip jq curl
+sudo yum install -y wget unzip jq curl
 
 # Get secrets from AWS secret manager
 export AWS_DEFAULT_REGION=region
