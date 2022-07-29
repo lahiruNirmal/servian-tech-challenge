@@ -7,7 +7,7 @@ output "lb_sg_id" {
 }
 
 output "app_sg_id" {
-  value = aws_security_group.application-sg.id
+  value = aws_security_group.app-sg.id
 }
 
 output "public_subnet_1_id" {

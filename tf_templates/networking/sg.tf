@@ -1,5 +1,5 @@
 resource "aws_security_group" "lb-sg" {
-  name        = "Load Balancer SG"
+  name        = "lb-sg"
   description = "Load Balancer SG"
   vpc_id      = aws_vpc.tech-challenge.id
 
@@ -8,8 +8,8 @@ resource "aws_security_group" "lb-sg" {
   }
 }
 
-resource "aws_security_group" "application-sg" {
-  name        = "Application SG"
+resource "aws_security_group" "app-sg" {
+  name        = "application-sg"
   description = "Application SG"
   vpc_id      = aws_vpc.tech-challenge.id
 
@@ -20,7 +20,7 @@ resource "aws_security_group" "application-sg" {
 
 
 resource "aws_security_group" "db-sg" {
-  name        = "Database SG"
+  name        = "db-sg"
   description = "Database SG"
   vpc_id      = aws_vpc.tech-challenge.id
 
@@ -55,7 +55,7 @@ resource "aws_security_group_rule" "application-https-rule" {
   to_port                  = 443
   protocol                 = "tcp"
   source_security_group_id = aws_security_group.lb-sg.id
-  security_group_id        = aws_security_group.application-sg.id
+  security_group_id        = aws_security_group.app-sg.id
 }
 
 resource "aws_security_group_rule" "application-http-rule" {
@@ -64,7 +64,7 @@ resource "aws_security_group_rule" "application-http-rule" {
   to_port                  = 80
   protocol                 = "tcp"
   source_security_group_id = aws_security_group.lb-sg.id
-  security_group_id        = aws_security_group.application-sg.id
+  security_group_id        = aws_security_group.app-sg.id
 }
 
 resource "aws_security_group_rule" "db-rule" {
@@ -72,6 +72,24 @@ resource "aws_security_group_rule" "db-rule" {
   from_port                = 0
   to_port                  = 5432
   protocol                 = "tcp"
-  source_security_group_id = aws_security_group.application-sg.id
+  source_security_group_id = aws_security_group.app-sg.id
   security_group_id        = aws_security_group.db-sg.id
+}
+
+resource "aws_security_group_rule" "application-egress-rule" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = -1
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.app-sg.id
+}
+
+resource "aws_security_group_rule" "lb-egress-rule" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 80
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.app-sg.id
 }
