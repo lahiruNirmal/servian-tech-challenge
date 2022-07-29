@@ -91,5 +91,5 @@ resource "aws_security_group_rule" "lb-egress-rule" {
   to_port           = 80
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.app-sg.id
+  security_group_id = aws_security_group.lb-sg.id
 }
