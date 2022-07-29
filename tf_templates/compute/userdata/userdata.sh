@@ -45,8 +45,8 @@ echo ${ASG_INSTANCE_COUNT}
 
 # Update the database 
 if [[ ${ASG_INSTANCE_COUNT} -le 1 ]]; then
-    ./TechChallengeApp updatedb
+    ./TechChallengeApp updatedb &
 fi
 
 # Deploy the application
-./TechChallengeApp serve
+./TechChallengeApp serve &
