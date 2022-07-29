@@ -16,6 +16,7 @@ resource "aws_db_instance" "db" {
   skip_final_snapshot      = true
   publicly_accessible      = false
   multi_az                 = true
+  storage_encrypted        = true
   availability_zone        = var.db_az_zones[2]
   kms_key_id               = aws_kms_key.db-encryption-key.arn
 
@@ -31,6 +32,7 @@ resource "aws_db_instance" "db-read-replica" {
   identifier             = format("%s-%s", var.db_identifier, count.index)
   instance_class         = var.db_instace_class
   vpc_security_group_ids = [var.db_security_group_id]
+  storage_encrypted      = true
   skip_final_snapshot    = true
   multi_az               = true
   kms_key_id             = aws_kms_key.db-encryption-key.arn
