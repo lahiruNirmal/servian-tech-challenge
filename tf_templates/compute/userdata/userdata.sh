@@ -14,10 +14,13 @@ DB_ENDPOINT=$(echo ${secret} | jq '.SecretString | fromjson | .db_endpoint')
 DB_PORT=$(echo ${secret} | jq '.SecretString | fromjson | .db_port')
 LISTEN_HOST=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
 
+echo ${secret}
+
 # Configure conf.toml
 wget https://github.com/servian/TechChallengeApp/releases/download/v.0.10.0/TechChallengeApp_v.0.10.0_linux64.zip
 unzip TechChallengeApp_v.0.10.0_linux64.zip -d ./
 cd dist
+ls
 
 sed -i 's/"DbUser" =.*/"DbUser" ="'${DB_USERNAME}'"/g' conf.toml
 sed -i 's/"DbPassword" =.*/"DbPassword" ="'${DB_PASSWORD}'"/g' conf.toml
