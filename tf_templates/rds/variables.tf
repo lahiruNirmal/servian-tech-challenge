@@ -28,12 +28,12 @@ variable "db_engine" {
 }
 
 variable "db_engine_version" {
-  default     = "13.4"
+  default     = "10.17"
   description = "DB engine version to be used"
 }
 
 variable "db_instace_class" {
-  default     = "db.m5d.large"
+  default     = "db.t3.micro"
   description = "Instance class type of the RDS instances"
 }
 
