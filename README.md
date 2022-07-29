@@ -25,6 +25,19 @@ There are 2 ways you can trigger this automated setup.
 
 ## Steps to deploy the application:
 
-1. 
+1. Login to your GitLab account.
+2. Create a new project.
+3. Add this repository's code into your repository.
+4. In the left side pane, select Settings>CI/CD.
+5. Select Expand in the Variables section. Add below variables and their values into that section.
+    1.1 AWS_ACCESS_KEY_ID
+    1.2 AWS_REGION
+    1.3 AWS_SECRET_ACCESS_KEY
+    1.4 PROJECT_ID (This is the GitLab project ID)
+    1.5 TF_PASSWORD (This is a personal access token with the permission to api, read_api, read_user, read_repository, write_repository, read_registry, write_registry)
+    1.6 TF_USERNAME (Username of your GitLab account)
+
+
+
 
 
