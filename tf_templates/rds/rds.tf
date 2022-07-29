@@ -1,6 +1,5 @@
 # DB master instance
 resource "aws_db_instance" "db" {
-  # db_name         = var.db_name
   allocated_storage        = 5
   engine                   = var.db_engine
   engine_version           = var.db_engine_version
@@ -16,7 +15,7 @@ resource "aws_db_instance" "db" {
   vpc_security_group_ids   = [var.db_security_group_id]
   skip_final_snapshot      = true
   publicly_accessible      = false
-  multi_az                 = false
+  multi_az                 = true
 
   tags = {
     "Name" = "tech-challenge-db-master"
@@ -24,21 +23,21 @@ resource "aws_db_instance" "db" {
 }
 
 # DB read replicas
-# resource "aws_db_instance" "db-read-replica" {
-#   # db_name           = var.db_name
-#   count                  = var.number_of_read_replicas
-#   replicate_source_db    = aws_db_instance.db.identifier
-#   identifier             = format("%s-%s", var.db_identifier, count.index)
-#   instance_class         = var.db_instace_class
-#   vpc_security_group_ids = [var.db_security_group_id]
-#   skip_final_snapshot    = true
-#   publicly_accessible    = false
-#   multi_az               = false
+resource "aws_db_instance" "db-read-replica" {
+  count                  = var.number_of_read_replicas
+  replicate_source_db    = aws_db_instance.db.identifier
+  identifier             = format("%s-%s", var.db_identifier, count.index)
+  instance_class         = var.db_instace_class
+  vpc_security_group_ids = [var.db_security_group_id]
+  skip_final_snapshot    = true
+  publicly_accessible    = false
+  multi_az               = true
+  kms_key_id             = aws_kms_key.db-encryption-key.arn
 
-#   tags = {
-#     "Name" = "tech-challenge-db-replica"
-#   }
-# }
+  tags = {
+    "Name" = "tech-challenge-db-replica"
+  }
+}
 
 # Generates a random password for RDS
 resource "random_string" "postgres-db-password" {

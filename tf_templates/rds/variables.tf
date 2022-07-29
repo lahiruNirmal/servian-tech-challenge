@@ -33,11 +33,11 @@ variable "db_engine_version" {
 }
 
 variable "db_instace_class" {
-  default     = "db.t3.micro"
+  default     = "db.m5d.large"
   description = "Instance class type of the RDS instances"
 }
 
 variable "number_of_read_replicas" {
-  default     = 1
+  default     = 2
   description = "Number of read replicas for DB"
 }
