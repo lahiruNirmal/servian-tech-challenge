@@ -24,7 +24,7 @@ variables: &common_vars
   variables:
     userdata_file_path: "${CI_PROJECT_DIR}/tf_templates/compute/userdata/userdata.sh"
     tfvars_file_path: "${CI_PROJECT_DIR}/tf_templates/terraform.tfvars"
-    DB_SECRET_NAME: test14_secret_path
+    DB_SECRET_NAME: test15_secret_path
   before_script:
     - sed -i 's/region.*/region = "'${AWS_REGION}'"/g' $tfvars_file_path
     - |
