@@ -42,6 +42,6 @@ variable "db_instace_class" {
 #   description = "Number of read replicas for DB"
 # }
 
-variable "db_az_zonnes" {
+variable "db_az_zones" {
   description = "AZ zones for DB cluster"
 }
