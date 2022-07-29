@@ -36,6 +36,7 @@ variables: &common_vars
     - cd ${CI_PROJECT_DIR}/tf_templates && terraform fmt -recursive  
     - cat ${CI_PROJECT_DIR}/tf_templates/terraform.tfvars
     - sed -i 's/export AWS_DEFAULT_REGION=.*/export AWS_DEFAULT_REGION='${AWS_REGION}'/g' $userdata_file_path
+    - sed -i 's/secret=$(aws secretsmanager get-secret-value --secret-id.*/secret=$(aws secretsmanager get-secret-value --secret-id '${DB_SECRET_NAME}'/g' $userdata_file_path
     - cat $userdata_file_path
     - cat $tfvars_file_path
 

@@ -28,4 +28,15 @@ module "compute" {
     db_port     = module.db.rds_port
   }
 
+  depends_on = [
+    module.db.db_password, 
+    module.db.rds_endpoint,
+    module.network.public_subnet_1_id,
+    module.network.public_subnet_2_id,
+    module.network.app_subnet_1_id,
+    module.network.app_subnet_2_id,
+    module.network.app_sg_id,
+    module.network.lb_sg_id
+  ]
+
 }
