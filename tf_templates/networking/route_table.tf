@@ -62,3 +62,8 @@ resource "aws_route_table_association" "db-subnet-2-route-table-association" {
   subnet_id      = aws_subnet.db-subnet-2.id
   route_table_id = aws_route_table.private-subnet-route-table.id
 }
+
+resource "aws_route_table_association" "db-subnet-3-route-table-association" {
+  subnet_id      = aws_subnet.db-subnet-3.id
+  route_table_id = aws_route_table.private-subnet-route-table.id
+}

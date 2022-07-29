@@ -34,6 +34,14 @@ output "db_subnet_2_id" {
   value = aws_subnet.db-subnet-2.id
 }
 
+output "db_subnet_3_id" {
+  value = aws_subnet.db-subnet-3.id
+}
+
 output "vpc_id" {
   value = aws_vpc.tech-challenge.id
+}
+
+output "az_zones" {
+  value = local.az_zones
 }

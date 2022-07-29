@@ -63,3 +63,12 @@ resource "aws_subnet" "db-subnet-2" {
   }
 }
 
+resource "aws_subnet" "db-subnet-3" {
+  vpc_id            = aws_vpc.tech-challenge.id
+  cidr_block        = "10.0.1.96/28"
+  availability_zone = local.zone_c
+
+  tags = {
+    Name = "db-subnet-3"
+  }
+}

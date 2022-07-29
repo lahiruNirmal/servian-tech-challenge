@@ -28,7 +28,7 @@ variable "db_engine" {
 }
 
 variable "db_engine_version" {
-  default     = "10.17"
+  default     = "13.4"
   description = "DB engine version to be used"
 }
 
@@ -37,7 +37,11 @@ variable "db_instace_class" {
   description = "Instance class type of the RDS instances"
 }
 
-variable "number_of_read_replicas" {
-  default     = 2
-  description = "Number of read replicas for DB"
+# variable "number_of_read_replicas" {
+#   default     = 2
+#   description = "Number of read replicas for DB"
+# }
+
+variable "db_az_zonnes" {
+  description = "AZ zones for DB cluster"
 }
