@@ -49,6 +49,12 @@ There are 2 ways you can trigger this automated setup.
 
 - [ ] The command that execute the database statement to create DB at initially gives an permission denied error when setting TABLESPACE to pg_default. This error could have been occurred due to PostgreSQL version being used. AWS RDS has deplricated both tested versions defined in the application and I have selected 10.17 version as it was the oldest version that was available.
 
+*Error log collected from EC2 instance while startup*
+![Image](https://gitlab.com/servian-lahiru/tech-challenge/-/blob/release-1.0.0/images/userdata_log.PNG)
+
+*Error log collected from RDS instance*
+![Image](https://gitlab.com/servian-lahiru/tech-challenge/-/blob/release-1.0.0/images/db_error_log.PNG)
+
 # **AWS architecture after the deployment:**
 
 
