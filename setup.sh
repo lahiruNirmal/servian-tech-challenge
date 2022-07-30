@@ -56,7 +56,7 @@ setup_userdata() {
 tf_validate() {
     setup_userdata
     terraform --version
-    cd ./tf_templates
+    cd ${CI_PROJECT_DIR}/tf_templates
     terraform init ${backend_config}
     terraform validate
 }
@@ -64,7 +64,7 @@ tf_validate() {
 # Terraform plan
 tf_plan() {
     setup_userdata
-    cd ./tf_templates
+    cd ${CI_PROJECT_DIR}/tf_templates
     terraform init ${backend_config}
     terraform plan
 }
@@ -72,7 +72,7 @@ tf_plan() {
 # Terraform apply
 tf_apply() {
     setup_userdata
-    cd ./tf_templates
+    cd ${CI_PROJECT_DIR}/tf_templates
     terraform init ${backend_config}
     terraform apply -auto-approve
 }
@@ -80,7 +80,7 @@ tf_apply() {
 # Terraform destroy
 tf_destroy() {
     setup_userdata
-    cd ./tf_templates
+    cd ${CI_PROJECT_DIR}/tf_templates
     terraform init ${backend_config}
     terraform destroy -auto-approve
 }
