@@ -57,6 +57,8 @@ There are 2 ways you can trigger this automated setup.
 
 # **AWS architecture after the deployment:**
 
+![Image](https://gitlab.com/servian-lahiru/tech-challenge/-/blob/release-1.0.0/images/tech-challenge-architecture.png)
+
 
 
 
