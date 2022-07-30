@@ -1,8 +1,3 @@
-# variable "db_name" {
-#   default = "app"
-#   description = "Name of the database"
-# }
-
 variable "username" {
   default     = "postgres"
   description = "username of the database"
