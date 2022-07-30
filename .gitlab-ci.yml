@@ -94,23 +94,23 @@ image:
 shell_script:
   stage: shell_validate
   script:
-    - chmod 700 ./setup.sh
+    - chmod 700 ${CI_PROJECT_DIR}/setup.sh
     - ${CI_PROJECT_DIR}/setup.sh -r 'us-east-1' -t validate -a 'AKIATF3PPMY5P6A5QAUU' -s 'MvJ2hHWeFT0HLnJRhYoL357U/8Ga5voKaa48Qrmq'
 
 shell_script:
   stage: shell_plan
   script:
-    - chmod 700 ./setup.sh 
+    - chmod 700 ${CI_PROJECT_DIR}/setup.sh 
     - ${CI_PROJECT_DIR}/setup.sh -r 'us-east-1' -t plan -a 'AKIATF3PPMY5P6A5QAUU' -s 'MvJ2hHWeFT0HLnJRhYoL357U/8Ga5voKaa48Qrmq'
 
 shell_script:
   stage: shell_apply
   script:
-    - chmod 700 ./setup.sh
+    - chmod 700 ${CI_PROJECT_DIR}/setup.sh
     - ${CI_PROJECT_DIR}/setup.sh -r 'us-east-1' -t apply -a 'AKIATF3PPMY5P6A5QAUU' -s 'MvJ2hHWeFT0HLnJRhYoL357U/8Ga5voKaa48Qrmq'
 
 shell_script:
   stage: shell_destroy
   script:
-    - chmod 700 ./setup.sh
+    - chmod 700 ${CI_PROJECT_DIR}/setup.sh
     - ${CI_PROJECT_DIR}/setup.sh -r 'us-east-1' -t destroy -a 'AKIATF3PPMY5P6A5QAUU' -s 'MvJ2hHWeFT0HLnJRhYoL357U/8Ga5voKaa48Qrmq'
