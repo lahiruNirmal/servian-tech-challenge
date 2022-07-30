@@ -59,8 +59,8 @@ tf_validate() {
     cd ${CI_PROJECT_DIR}/tf_templates
     echo ${backend_config}
 
-    terraform init -chdir=${CI_PROJECT_DIR}/tf_templates ${backend_config}
-    terraform validate -chdir=${CI_PROJECT_DIR}/tf_templates
+    terraform -chdir=${CI_PROJECT_DIR}/tf_templates init ${backend_config}
+    terraform -chdir=${CI_PROJECT_DIR}/tf_templates validate
 }
 
 # Terraform plan
