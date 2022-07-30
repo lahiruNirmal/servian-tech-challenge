@@ -101,14 +101,14 @@ shell_plan:
   script:
     - sh ${CI_PROJECT_DIR}/setup.sh -r 'us-east-1' -t plan -a 'AKIATF3PPMY5P6A5QAUU' -s 'MvJ2hHWeFT0HLnJRhYoL357U/8Ga5voKaa48Qrmq'
 
-# shell_apply:
-#   stage: shell_apply
-#   script:
-#     - chmod 777 ${CI_PROJECT_DIR}/setup.sh
-#     - sh ${CI_PROJECT_DIR}/setup.sh -r 'us-east-1' -t apply -a 'AKIATF3PPMY5P6A5QAUU' -s 'MvJ2hHWeFT0HLnJRhYoL357U/8Ga5voKaa48Qrmq'
+shell_apply:
+  stage: shell_apply
+  when: manual
+  script:
+    - sh ${CI_PROJECT_DIR}/setup.sh -r 'us-east-1' -t apply -a 'AKIATF3PPMY5P6A5QAUU' -s 'MvJ2hHWeFT0HLnJRhYoL357U/8Ga5voKaa48Qrmq'
 
-# shell_destroy:
-#   stage: shell_destroy
-#   script:
-#     - chmod 777 ${CI_PROJECT_DIR}/setup.sh
-#     - sh ${CI_PROJECT_DIR}/setup.sh -r 'us-east-1' -t destroy -a 'AKIATF3PPMY5P6A5QAUU' -s 'MvJ2hHWeFT0HLnJRhYoL357U/8Ga5voKaa48Qrmq'
+shell_destroy:
+  stage: shell_destroy
+  when: manual
+  script:
+    - sh ${CI_PROJECT_DIR}/setup.sh -r 'us-east-1' -t destroy -a 'AKIATF3PPMY5P6A5QAUU' -s 'MvJ2hHWeFT0HLnJRhYoL357U/8Ga5voKaa48Qrmq'

@@ -64,7 +64,7 @@ tf_validate() {
 tf_plan() {
     setup_userdata
     terraform -chdir=${CI_PROJECT_DIR}/tf_templates init ${backend_config} 
-    terraform plan -chdir=${CI_PROJECT_DIR}/tf_templates
+    terraform -chdir=${CI_PROJECT_DIR}/tf_templates plan
 }
 
 # Terraform apply
