@@ -56,8 +56,11 @@ setup_userdata() {
 tf_validate() {
     setup_userdata
     terraform --version
+    echo "${CI_PROJECT_DIR}/tf_templates"
+    echo ${backend_config}
+
     terraform init -chdir="${CI_PROJECT_DIR}/tf_templates" ${backend_config}
-    terraform validate -chdir="${CI_PROJECT_DIR}/tf_templates" ${backend_config}
+    terraform validate -chdir="${CI_PROJECT_DIR}/tf_templates"
 }
 
 # Terraform plan
