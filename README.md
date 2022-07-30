@@ -19,7 +19,7 @@ Here the terraform backend is stored remotely in GitLab using it's in built feat
 * apply (Runs a terraform apply to provision the AWS cloud resources resources)
 * destroy (Destroys all the infrastructure created by previous apploy stage)
 
-
+![Image](https://gitlab.com/servian-lahiru/tech-challenge/-/raw/release-1.0.0/images/gitlab_stages.PNG)
 
 **Note:** After running the plan stage user have to trigger the apply stage manually to run it. This is used to prevent the pipeline from provisioning cloud resources unless user want to. Same goes with destroy stage.
 
