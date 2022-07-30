@@ -56,7 +56,7 @@ setup_userdata() {
 tf_validate() {
     setup_userdata
     terraform --version
-    terraform init ${backend_config} -chdir="${CI_PROJECT_DIR}/tf_templates"
+    terraform init -chdir="${CI_PROJECT_DIR}/tf_templates" ${backend_config}
     terraform validate -chdir="${CI_PROJECT_DIR}/tf_templates"
 }
 
@@ -111,7 +111,7 @@ export backend_config="-backend-config=address={$TF_ADDRESS} \n
                 -backend-config=password=${TF_PASSWORD} \n
                 -backend-config=lock_method=POST \n
                 -backend-config=unlock_method=DELETE \n 
-                -backend-config=retry_wait_min=5 \n"
+                -backend-config=retry_wait_min=5"
 
 if [[ ${TF_ACTION} == "validate" ]]; then
     tf_validate
