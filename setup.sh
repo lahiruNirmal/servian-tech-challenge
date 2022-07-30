@@ -56,9 +56,6 @@ setup_userdata() {
 tf_validate() {
     setup_userdata
     terraform --version
-    cd ${CI_PROJECT_DIR}/tf_templates
-    echo ${backend_config}
-
     terraform -chdir=${CI_PROJECT_DIR}/tf_templates init ${backend_config}
     terraform -chdir=${CI_PROJECT_DIR}/tf_templates validate
 }
@@ -66,22 +63,22 @@ tf_validate() {
 # Terraform plan
 tf_plan() {
     setup_userdata
-    terraform init ${backend_config} -chdir=${CI_PROJECT_DIR}/tf_templates
+    terraform -chdir=${CI_PROJECT_DIR}/tf_templates init ${backend_config} 
     terraform plan -chdir=${CI_PROJECT_DIR}/tf_templates
 }
 
 # Terraform apply
 tf_apply() {
     setup_userdata
-    terraform init ${backend_config} -chdir=${CI_PROJECT_DIR}/tf_templates
-    terraform apply -auto-approve -chdir=${CI_PROJECT_DIR}/tf_templates
+    terraform -chdir=${CI_PROJECT_DIR}/tf_templates init ${backend_config}
+    terraform -chdir=${CI_PROJECT_DIR}/tf_templates apply -auto-approve
 }
 
 # Terraform destroy
 tf_destroy() {
     setup_userdata
-    terraform init ${backend_config} -chdir=${CI_PROJECT_DIR}/tf_templates
-    terraform destroy -auto-approve -chdir=${CI_PROJECT_DIR}/tf_templates
+    terraform -chdir=${CI_PROJECT_DIR}/tf_templates init ${backend_config}
+    terraform -chdir=${CI_PROJECT_DIR}/tf_templates destroy -auto-approve
 }
 
 
