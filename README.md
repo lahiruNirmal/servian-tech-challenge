@@ -52,7 +52,7 @@ Here the terraform backend is stored remotely in GitLab using it's in built feat
 6. Go to *CI/CD > Pipelines* in left side pane and select Click on pipeline. Select main branch to run the pipeline.
 7. In the variables section add AWS_REGION, and DB_SECRET_NAME as keys and add their values.
     - [ ] Here *AWS_REGION* is where you deploy the infrastructure. Currently configured to run in *us-east-1* and *us-east-2* only.
-    - [ ] Here *DB_SECRET_NAME* is the name of the secret created in AWS secret manager to store database credentials and database endpoint information.
+    - [ ] Here *DB_SECRET_NAME* is the name of the secret created in AWS secret manager to store database credentials and database endpoint information. If you do not specify this name pipeline will set secret name as "tech_challenge_secret". But if you try to destroy the infrastructure and re deploy again in same cloud account you will have to specify *DB_SECRET_NAME* since AWS secret manager will delete removed secrets after minimum 7 days and newly creating secret name must not conflict with it.
 8. After the pipeline gets completed successfully login to your aws account and get the public DNS name of the Application Load Balancer that has been created and navigate to that dns zone in your browser to checkwhether the application is properly deployed.
 
 
