@@ -55,6 +55,33 @@ Here the terraform backend is stored remotely in GitLab using it's in built feat
     - [ ] Here *DB_SECRET_NAME* is the name of the secret created in AWS secret manager to store database credentials and database endpoint information. If you do not specify this name pipeline will set secret name as "tech_challenge_secret". But if you try to destroy the infrastructure and re deploy again in same cloud account you will have to specify *DB_SECRET_NAME* since AWS secret manager will delete removed secrets after minimum 7 days and newly creating secret name must not conflict with it.
 8. After the pipeline gets completed successfully login to your aws account and get the public DNS name of the Application Load Balancer that has been created and navigate to that dns zone in your browser to checkwhether the application is properly deployed.
 
+# **Using shell script**
+
+Here the terraform backend is stored in local machine's working directory.
+
+## Tools used:
+
+- AWS public cloud as infrastructure
+- Terraform (version 1.2.6)
+- Linux bash
+
+## Prerequisites:
+
+- You should have an AWS account and should have programmatic access to it with permission to deploy network resources, RDS instances, EC2 instances, KMS keys, AWS service linked roles, IAM policies, application load balancers, and assigning policies to roles.
+- Should have a Linux terminal with bash.
+
+## Steps to deploy the application:
+
+1 Navigate into the tech-challenge directory.
+2 Execute setup.sh with arguments
+    - [ ] -r : region (Only tested in us-east-1 and us-west-2)
+    - [ ] -d : database secret name (Store credentials in AWS secrets manager. Optional in first run. Reason explained in the 'Using GitLab' section).
+    - [ ] -t : Terraform action to perform (Allowed values are validate, plan, apply, destroy)
+    - [ ] -a : aws_access_key
+    - [ ] -s : aws_secret_access_key
+
+*Example:* ./setup.sh -r us-east-1 -d example_secret_name -t plan -a AWS_ACCESS_KEY_ID -s AWS_SECRET_ACCESS_KEY
+
 
 # **Problems faced during deployment:**
 
