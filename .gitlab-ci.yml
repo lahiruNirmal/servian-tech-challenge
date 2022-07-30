@@ -29,9 +29,12 @@ variables: &common_vars
     - sed -i 's/region.*/region = "'${AWS_REGION}'"/g' $tfvars_file_path
     - |
       if [[ -z ${DB_SECRET_NAME} ]]; then 
-      sed -i 's/db_secret_name .*/db_secret_name = "tech_challenge_secret"/g' $tfvars_file_path 
+      sed -i 's/db_secret_name .*/db_secret_name = "tech_challenge_secret"/g' $tfvars_file_path
+      export DB_SECRET_NAME="tech_challenge_secret"
+      echo "inside"
       else
       sed -i 's/db_secret_name .*/db_secret_name = "'${DB_SECRET_NAME}'"/g' $tfvars_file_path 
+      echo "outside"
       fi
     - cd ${CI_PROJECT_DIR}/tf_templates && terraform fmt -recursive  
     - cat ${CI_PROJECT_DIR}/tf_templates/terraform.tfvars
