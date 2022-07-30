@@ -107,9 +107,9 @@ export TF_ACTION=$tf_action
 
 export TF_ADDRESS="https://gitlab.com/api/v4/projects/${PROJECT_ID}/terraform/state/tech-challenge-state"
 export PROJECT_ID="38098168"
-export backend_config="-backend-config=address={$TF_ADDRESS} 
-                -backend-config=lock_address=$TF_ADDRESS/lock 
-                -backend-config=unlock_address=$TF_ADDRESS/lock 
+export backend_config="-backend-config=address=${TF_ADDRESS} 
+                -backend-config=lock_address=${TF_ADDRESS}/lock 
+                -backend-config=unlock_address=${TF_ADDRESS}/lock 
                 -backend-config=username=${TF_USERNAME} 
                 -backend-config=password=${TF_PASSWORD} 
                 -backend-config=lock_method=POST 
