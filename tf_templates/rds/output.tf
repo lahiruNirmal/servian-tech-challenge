@@ -14,18 +14,3 @@ output "rds_port" {
   value = aws_db_instance.db.port
 }
 
-# output "db_password" {
-#   value = "jklajdk"
-# }
-
-# output "db_username" {
-#   value = "lahiie"
-# }
-
-# output "rds_endpoint" {
-#   value = "jskkllks"
-# }
-
-# output "rds_port" {
-#   value = "5434"
-# }
