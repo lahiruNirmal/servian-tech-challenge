@@ -29,13 +29,28 @@ There are 2 ways you can trigger this automated setup.
 2. Create a new project.
 3. Add this repository's code into your repository.
 4. In the left side pane, select Settings>CI/CD.
-5. Select Expand in the Variables section. Add below variables and their values into that section.
+5. Select Expand in the Variables section. There add below variables and their values into that section.
     1.1 AWS_ACCESS_KEY_ID
-    1.2 AWS_REGION
+    
     1.3 AWS_SECRET_ACCESS_KEY
     1.4 PROJECT_ID (This is the GitLab project ID)
     1.5 TF_PASSWORD (This is a personal access token with the permission to api, read_api, read_user, read_repository, write_repository, read_registry, write_registry)
     1.6 TF_USERNAME (Username of your GitLab account)
+
+Note: Here all other variables except TF_USERNAME, and PROJECT_ID must be masked variables to improve security.
+
+6. Go to CI/CD > Pipelines in left side pane and select Click on pipeline. Select main branch to run the pipeline.
+7. In the variables section add AWS_REGION, and DB_SECRET_NAME as keys and add their values.
+    7.1 Here AWS_REGION is where you deploy the infrastructure. Currently configured to run in us-east-1 and us-east-2 only.
+    7.2 Here DB_SECRET_NAME is the name of the secret created in AWS secret manager to store database credentials and database endpoint information.
+8. After the pipeline gets completed successfully login to your aws account and get the public DNS name of the Application Load Balancer that has been created and navigate to that dns zone in your browser to checkwhether the application is properly deployed.
+
+
+
+
+
+
+
 
 
 
