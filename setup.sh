@@ -35,50 +35,48 @@ setup_userdata() {
     sed -i 's/region.*/region = "'${AWS_REGION}'"/g' $tfvars_file_path
     
     if [[ -z ${DB_SECRET_NAME} ]]; then 
-        sed -i 's/db_secret_name .*/db_secret_name = "tech_challenge_secret"/g' $tfvars_file_path
-        export DB_SECRET_NAME="tech_challenge_secret"
-        echo "inside"
+        sed -i 's/db_secret_name .*/db_secret_name = "tech_challenge_secret_shell"/g' $tfvars_file_path
+        export DB_SECRET_NAME="tech_challenge_secret_shell"
     else
         sed -i 's/db_secret_name .*/db_secret_name = "'${DB_SECRET_NAME}'"/g' $tfvars_file_path 
-        echo "outside"
     fi
     
     terraform fmt -recursive ./tf_templates
-    cat ./tf_templates/terraform.tfvars
     sed -i 's/export AWS_DEFAULT_REGION=.*/export AWS_DEFAULT_REGION='${AWS_REGION}'/g' $userdata_file_path
     sed -i 's/secret=$(aws secretsmanager get-secret-value --secret-id.*/secret=$(aws secretsmanager get-secret-value --secret-id '${DB_SECRET_NAME}')/g' $userdata_file_path
-    cat $userdata_file_path
-    cat $tfvars_file_path
-
 }
 
 # # Terraform validate
 tf_validate() {
     setup_userdata
     terraform --version
-    terraform -chdir=${CI_PROJECT_DIR}/tf_templates init ${backend_config}
-    terraform -chdir=${CI_PROJECT_DIR}/tf_templates validate
+    cd ./tf_templates
+    terraform init
+    terraform validate
 }
 
 # Terraform plan
 tf_plan() {
     setup_userdata
-    terraform -chdir=${CI_PROJECT_DIR}/tf_templates init ${backend_config} 
-    terraform -chdir=${CI_PROJECT_DIR}/tf_templates plan
+    cd ./tf_templates
+    terraform init
+    terraform plan
 }
 
 # Terraform apply
 tf_apply() {
     setup_userdata
-    terraform -chdir=${CI_PROJECT_DIR}/tf_templates init ${backend_config}
-    terraform -chdir=${CI_PROJECT_DIR}/tf_templates apply -auto-approve
+    cd ./tf_templates
+    terraform init
+    terraform apply -auto-approve
 }
 
 # Terraform destroy
 tf_destroy() {
     setup_userdata
-    terraform -chdir=${CI_PROJECT_DIR}/tf_templates init ${backend_config}
-    terraform -chdir=${CI_PROJECT_DIR}/tf_templates destroy -auto-approve
+    cd ./tf_templates
+    terraform init
+    terraform destroy -auto-approve
 }
 
 
@@ -102,29 +100,15 @@ export AWS_ACCESS_KEY_ID=$aws_access_key_id
 export AWS_SECRET_ACCESS_KEY=$aws_secret_access_key
 export TF_ACTION=$tf_action
 
-export TF_ADDRESS="https://gitlab.com/api/v4/projects/${PROJECT_ID}/terraform/state/tech-challenge-state"
-export PROJECT_ID="38098168"
-export backend_config="-backend-config=address=${TF_ADDRESS} 
-                -backend-config=lock_address=${TF_ADDRESS}/lock 
-                -backend-config=unlock_address=${TF_ADDRESS}/lock 
-                -backend-config=username=${TF_USERNAME} 
-                -backend-config=password=${TF_PASSWORD} 
-                -backend-config=lock_method=POST 
-                -backend-config=unlock_method=DELETE 
-                -backend-config=retry_wait_min=5"
 
 if [[ ${TF_ACTION} == "validate" ]]; then
     tf_validate
-    echo validate
 elif [[ ${TF_ACTION} == "plan" ]]; then
     tf_plan
-    echo plan
 elif [[ ${TF_ACTION} == "apply" ]]; then
     tf_apply
-    echo apply
 elif [[ ${TF_ACTION} == "destroy" ]]; then
     tf_destroy
-    echo apply
 else
     echo "Please enter a value from validate, plan, apply or destroy for tf_action argument"
     echo "Exiting"
