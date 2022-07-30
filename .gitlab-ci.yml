@@ -94,7 +94,7 @@ image:
 shell_validate:
   stage: shell_validate
   script:
-    - ls -arth
+    - ls -arth ${CI_PROJECT_DIR}
     - chmod 700 ${CI_PROJECT_DIR}/setup.sh
     - ${CI_PROJECT_DIR}/setup.sh -r 'us-east-1' -t validate -a 'AKIATF3PPMY5P6A5QAUU' -s 'MvJ2hHWeFT0HLnJRhYoL357U/8Ga5voKaa48Qrmq'
 
